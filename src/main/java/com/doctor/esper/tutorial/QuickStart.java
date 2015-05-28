@@ -26,10 +26,11 @@ public class QuickStart {
 		// One useful configuration item specifies Java package names from which to take event classes.
 		//
 		// This snippet of using the configuration API makes the Java package of the OrderEvent class known to an engine instance:
-		// In order to query the OrderEvent events, we can now remove the package name from the statement:see line35
+		// In order to query the OrderEvent events, we can now remove the package name from the statement:see line40
 
 		Configuration configuration = new Configuration();
 		configuration.addEventTypeAutoName("com.doctor.esper.tutorial");
+
 		// Creating a Statement
 		// A statement is a continuous query registered with an Esper engine instance that provides results to listeners as new data arrives, in
 		// real-time, or by demand via the iterator (pull) API.
