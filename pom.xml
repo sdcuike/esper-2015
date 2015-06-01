@@ -28,9 +28,9 @@
 
 		<cglib.verson>3.1</cglib.verson>
 
-		<logback-classic.version>1.1.2</logback-classic.version>
+		<logback-classic.version>1.1.3</logback-classic.version>
 		<log4j.version>1.2.17</log4j.version>
-		<slf4j-api.version>1.7.7</slf4j-api.version>
+		<slf4j-api.version>1.7.12</slf4j-api.version>
 
 	</properties>
 
@@ -54,6 +54,10 @@
 				<exclusion>
 					<artifactId>log4j</artifactId>
 					<groupId>log4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -85,6 +89,12 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -104,6 +114,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j-api.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback-classic.version}</version>
@@ -113,6 +128,12 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
 			<version>${logback-classic.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${slf4j-api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
