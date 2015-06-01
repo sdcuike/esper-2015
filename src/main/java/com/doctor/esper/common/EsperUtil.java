@@ -14,7 +14,7 @@ import com.espertech.esper.client.SafeIterator;
  */
 public enum EsperUtil {
 	;
-	static List<EventBean> get(EPStatement epStatement) {
+	public static List<EventBean> get(EPStatement epStatement) {
 		List<EventBean> list = new ArrayList<>();
 		SafeIterator<EventBean> safeIterator = epStatement.safeIterator();
 		try {
