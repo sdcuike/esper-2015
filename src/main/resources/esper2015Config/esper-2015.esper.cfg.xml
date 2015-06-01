@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 	<esper-configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-						 xmlns="http://www.espertech.com/schema/esper" 
+						 xmlns="http://www.espertech.com/schema/esperha" 
 	                     xsi:schemaLocation="http://www.espertech.com/schema/esper
-                                             http://www.espertech.com/schema/esper/esper-configuration-2.0.xsd">
+                                             http://www.espertech.com/schema/esper/esperha-configuration-5-0.xsd">
 	
 <!-- 	<event-type name="StockTick" class="com.espertech.esper.example.stockticker.event.StockTick" /> -->
 <!-- 	<event-type name="PriceLimit" class="com.espertech.esper.example.stockticker.event.PriceLimit" /> -->
