@@ -3,6 +3,9 @@ package com.doctor.esper.common;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.espertech.esper.client.Configuration;
+import com.espertech.esper.client.EPServiceProvider;
+import com.espertech.esper.client.EPServiceProviderManager;
 import com.espertech.esper.client.EPStatement;
 import com.espertech.esper.client.EventBean;
 import com.espertech.esper.client.SafeIterator;
@@ -26,5 +29,11 @@ public enum EsperUtil {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public static EPServiceProvider esperConfig(String config) {
+		Configuration configuration = new Configuration();
+		configuration.configure(EsperUtil.class.getClassLoader().getResource(config));
+		return EPServiceProviderManager.getDefaultProvider(configuration);
 	}
 }
