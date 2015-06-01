@@ -1,5 +1,7 @@
 package com.doctor.esper.tutorial;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * Creating a Java Event Class
  * 
@@ -32,4 +34,8 @@ public class OrderEvent {
 		return price;
 	}
 
+	@Override
+	public String toString() {
+		return JSON.toJSONString(this);
+	}
 }
