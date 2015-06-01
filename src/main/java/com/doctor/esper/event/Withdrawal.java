@@ -3,14 +3,24 @@ package com.doctor.esper.event;
 import java.math.BigDecimal;
 
 public class Withdrawal {
-	private BigDecimal amout;
+	private String account;
 
-	public BigDecimal getAmout() {
-		return amout;
+	private BigDecimal amount;
+
+	public String getAccount() {
+		return account;
 	}
 
-	public void setAmout(BigDecimal amout) {
-		this.amout = amout;
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
 
 }

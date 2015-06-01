@@ -6,5 +6,5 @@
 	
 <!-- 	<event-type name="StockTick" class="com.espertech.esper.example.stockticker.event.StockTick" /> -->
 <!-- 	<event-type name="PriceLimit" class="com.espertech.esper.example.stockticker.event.PriceLimit" /> -->
-	<auto-import import-name="com.doctor.esper.event.*" />
+	<event-type-auto-name package-name="com.doctor.esper.event"/>
 </esper-configuration>
