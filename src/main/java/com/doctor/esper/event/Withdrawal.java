@@ -7,6 +7,11 @@ public class Withdrawal {
 
 	private BigDecimal amount;
 
+	public Withdrawal(String account, BigDecimal amount) {
+		this.account = account;
+		this.amount = amount;
+	}
+
 	public String getAccount() {
 		return account;
 	}
