@@ -2,6 +2,8 @@ package com.doctor.esper.event;
 
 import java.math.BigDecimal;
 
+import com.alibaba.fastjson.JSON;
+
 public class Withdrawal {
 	private String account;
 
@@ -28,4 +30,8 @@ public class Withdrawal {
 		this.amount = amount;
 	}
 
+	@Override
+	public String toString() {
+		return JSON.toJSONString(this);
+	}
 }
