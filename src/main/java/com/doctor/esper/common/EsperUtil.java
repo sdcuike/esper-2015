@@ -27,6 +27,8 @@ public enum EsperUtil {
 		} catch (Throwable e) {
 			safeIterator.close();
 			e.printStackTrace();
+		} finally {
+			safeIterator.close();
 		}
 		return list;
 	}
