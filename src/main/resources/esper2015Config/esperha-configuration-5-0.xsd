@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.espertech.com/schema/esperha" elementFormDefault="qualified" xmlns:esperha="http://www.espertech.com/schema/esperha" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="esperha-configuration">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element ref="esperha:statement-mappings" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="esperha:scheme-profiles" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="esperha:store-environments" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="esperha:event-types" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="esperha:esperha-settings" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="statement-mappings">
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element ref="esperha:statement-mapping" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="statement-mapping">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element name="statement-name" type="xs:string"/>
+					<xs:element name="scheme-name" type="xs:string"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="scheme-profiles">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="esperha:scheme-profile" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="scheme-profile">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element name="scheme-name" type="xs:string" minOccurs="0"/>
+					<xs:element ref="esperha:durable-profile" minOccurs="0"/>
+					<xs:element ref="esperha:overflow-profile" minOccurs="0"/>
+					<xs:element ref="esperha:resilient-profile" minOccurs="0"/>
+					<xs:element ref="esperha:transient-profile" minOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="resilient-profile">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="esperha:store" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="durable-profile">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="esperha:store" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="overflow-profile">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="esperha:store" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="transient-profile"/>
+	<xs:element name="store">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="store-environments">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element ref="esperha:store-env-capture" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="esperha:store-env-dboe" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="esperha:store-env-custom" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="config-param">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="store-env-capture">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element name="truncate-on-open" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="homedir-classpath-resource" type="xs:string" minOccurs="0"/>
+					<xs:element name="homedir-file" type="xs:string" minOccurs="0"/>
+					<xs:element name="homedir-url" type="xs:string" minOccurs="0"/>
+					<xs:element name="allow-create" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="sub-directory-name" type="xs:string" minOccurs="0"/>
+					<xs:element ref="esperha:file" minOccurs="0"/>
+					<xs:element ref="esperha:checksum" minOccurs="0"/>
+					<xs:element ref="esperha:compression" minOccurs="0"/>
+					<xs:element ref="esperha:capture" minOccurs="0"/>
+					<xs:element ref="esperha:recovery" minOccurs="0"/>
+					<xs:element ref="esperha:eventcentral" minOccurs="0"/>
+					<xs:element ref="esperha:logremoval" minOccurs="0"/>
+					<xs:element ref="esperha:iostatistics" minOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="file">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded"/>
+			<xs:attribute name="index-buffersize" type="xs:int" use="optional"/>
+			<xs:attribute name="index-populateiocacheonflush" type="xs:boolean" use="optional"/>
+			<xs:attribute name="eventindex-buffersize" type="xs:int" use="optional"/>
+			<xs:attribute name="eventindex-populateiocacheonflush" type="xs:boolean" use="optional"/>
+			<xs:attribute name="subindex-buffersize" type="xs:int" use="optional"/>
+			<xs:attribute name="subindex-populateiocacheonflush" type="xs:boolean" use="optional"/>
+			<xs:attribute name="store-buffersize" type="xs:int" use="optional"/>
+			<xs:attribute name="store-populateiocacheonflush" type="xs:boolean" use="optional"/>
+			<xs:attribute name="event-buffersize" type="xs:int" use="optional"/>
+			<xs:attribute name="event-populateiocacheonflush" type="xs:boolean" use="optional"/>
+			<xs:attribute name="memory-mapped-read" type="xs:boolean" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="checksum">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded"/>
+			<xs:attribute name="creation-enabled" type="xs:boolean" use="optional"/>
+			<xs:attribute name="checking-enabled" type="xs:boolean" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="compression">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="esperha:config-param" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="enabled" type="xs:boolean" use="optional"/>
+			<xs:attribute name="compressor-class" type="xs:string" use="optional"/>
+			<xs:attribute name="chunklengthkb" type="xs:int" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="capture">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded"/>
+			<xs:attribute name="incremental-enabled" type="xs:boolean" use="optional"/>
+			<xs:attribute name="full-only" type="xs:boolean" use="optional"/>
+			<xs:attribute name="write-thread-count" type="xs:int" use="optional"/>
+			<xs:attribute name="write-thread-priority" type="xs:integer" use="optional"/>
+			<xs:attribute name="checkpoint-apicall-enabled" type="xs:boolean" use="optional"/>
+			<xs:attribute name="ondestroy-enabled" type="xs:boolean" use="optional"/>
+			<xs:attribute name="max-num-increments" type="xs:int" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="recovery">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded"/>
+			<xs:attribute name="enabled" type="xs:boolean" use="optional"/>
+			<xs:attribute name="thread-count" type="xs:int" use="optional"/>
+			<xs:attribute name="thread-priority" type="xs:integer" use="optional"/>
+			<xs:attribute name="past-filesets" type="xs:boolean" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="eventcentral">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded"/>
+			<xs:attribute name="enabled" type="xs:boolean" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="logremoval">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded"/>
+			<xs:attribute name="automatic-enabled" type="xs:boolean" use="optional"/>
+			<xs:attribute name="count-retained" type="xs:int" use="optional"/>
+			<xs:attribute name="frequency-sec" type="xs:int" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="iostatistics">
+		<xs:complexType>
+			<xs:attribute name="statement-level" type="xs:boolean" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="write-combined">
+		<xs:complexType>
+			<xs:attribute name="enabled" type="xs:boolean" use="required"/>
+			<xs:attribute name="threads" type="xs:int" use="optional"/>
+			<xs:attribute name="thread-priority" type="xs:int" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="store-env-dboe">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element ref="esperha:datasource-connection" minOccurs="0"/>
+					<xs:element ref="esperha:datasourcefactory-connection" minOccurs="0"/>
+					<xs:element ref="esperha:database-type" minOccurs="0"/>
+					<xs:element ref="esperha:drivermanager-connection" minOccurs="0"/>
+					<xs:element ref="esperha:oracledatasource-connection" minOccurs="0"/>
+					<xs:element ref="esperha:table-prefix" minOccurs="0"/>
+					<xs:element ref="esperha:write-combined" minOccurs="0"/>
+					<xs:element ref="esperha:retry" minOccurs="0"/>
+					<xs:element name="truncate-on-open" type="xs:boolean" minOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="table-prefix">
+		<xs:complexType>
+			<xs:attribute name="prefix" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="database-type">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="integrated-security">
+		<xs:complexType>
+			<xs:attribute name="enabled" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="datasource-connection">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="esperha:env-property" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="context-lookup-name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="datasourcefactory-connection">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="esperha:env-property" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="class-name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="oracledatasource-connection">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element ref="esperha:connection-properties" minOccurs="0"/>
+					<xs:element ref="esperha:connection-cache-properties" minOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="driver-type" type="xs:string" use="optional"/>
+			<xs:attribute name="server-name" type="xs:string" use="required"/>
+			<xs:attribute name="network-protocol" type="xs:string" use="optional"/>
+			<xs:attribute name="database-name" type="xs:string" use="required"/>
+			<xs:attribute name="port-number" type="xs:int" use="required"/>
+			<xs:attribute name="user" type="xs:string" use="required"/>
+			<xs:attribute name="password" type="xs:string" use="required"/>
+			<xs:attribute name="connection-caching-enabled" type="xs:boolean" use="optional"/>
+			<xs:attribute name="connection-cache-name" type="xs:string" use="optional"/>
+			<xs:attribute name="fast-connection-failover-enabled" type="xs:boolean" use="optional"/>
+			<xs:attribute name="ons-configuration" type="xs:string" use="optional"/>
+			<xs:attribute name="login-timeout" type="xs:int" use="optional"/>
+			<xs:attribute name="tns-entry-name" type="xs:string" use="optional"/>
+			<xs:attribute name="datasource-name" type="xs:string" use="optional"/>
+			<xs:attribute name="service-name" type="xs:string" use="optional"/>
+			<xs:attribute name="url" type="xs:string" use="optional"/>
+			<xs:attribute name="description" type="xs:string" use="optional"/>
+			<xs:attribute name="max-statements" type="xs:int" use="optional"/>
+			<xs:attribute name="implicit-caching-enabled" type="xs:boolean" use="optional"/>
+			<xs:attribute name="explicit-caching-enabled" type="xs:boolean" use="optional"/>
+			<xs:attribute name="spawn-new-thread-to-cancel" type="xs:boolean" use="optional"/>
+			<!-- defaults to "thin" -->
+			<!-- defaults to "tcp" -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="connection-properties">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="esperha:env-property" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="connection-cache-properties">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="esperha:env-property" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="env-property">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="drivermanager-connection">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="esperha:connection-arg" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="class-name" type="xs:string" use="required"/>
+			<xs:attribute name="url" type="xs:string" use="required"/>
+			<xs:attribute name="user" type="xs:string" use="optional"/>
+			<xs:attribute name="password" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="connection-arg">
+		<xs:complexType>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="value" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="connection-settings">
+		<xs:complexType>
+			<xs:attribute name="auto-commit" type="xs:boolean" use="optional"/>
+			<xs:attribute name="catalog" type="xs:string" use="optional"/>
+			<xs:attribute name="read-only" type="xs:boolean" use="optional"/>
+			<xs:attribute name="transaction-isolation" type="xs:int" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="store-env-custom">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element ref="esperha:config-param" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="esperha:config-xml" minOccurs="0"/>
+					<xs:element name="truncate-on-open" type="xs:boolean" minOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="cache-class-name" type="xs:string" use="required"/>
+			<xs:attribute name="regression-class-name" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="config-xml">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="esperha-settings">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element ref="esperha:checkpointing" minOccurs="0"/>
+					<xs:element ref="esperha:event-meta" minOccurs="0"/>
+					<xs:element ref="esperha:finalization" minOccurs="0"/>
+					<xs:element ref="esperha:recovery-exception-handling" minOccurs="0"/>
+					<xs:element ref="esperha:shutdown-hook" minOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="ignore-duplicate-statements" type="xs:boolean" use="optional" default="false"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="recovery-exception-handling">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="esperha:handler-factory" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="handler-factory">
+		<xs:complexType>
+			<xs:attribute name="class" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="checkpointing">
+		<xs:complexType>
+			<xs:attribute name="enabled" type="xs:boolean" use="required"/>
+			<xs:attribute name="interval-msec" type="xs:long" use="required"/>
+			<xs:attribute name="event-count" type="xs:long" use="required"/>
+			<xs:attribute name="thread-priority" type="xs:int" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="event-meta">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element ref="esperha:binary-datainputoutput-binding" minOccurs="0"/>
+					<xs:element ref="esperha:binary-binding" minOccurs="0"/>
+					<xs:element ref="esperha:binary-persistence" minOccurs="0"/>
+					<xs:element ref="esperha:object-persistence" minOccurs="0"/>
+					<xs:element ref="esperha:reference" minOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="finalization">
+		<xs:complexType>
+			<xs:attribute name="enabled" type="xs:boolean" use="required"/>
+			<xs:attribute name="thread-priority" type="xs:int" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="shutdown-hook">
+		<xs:complexType>
+			<xs:attribute name="enabled" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="reference">
+		<xs:complexType>
+			<xs:attribute name="style" type="esperha:eventReferenceStyleEnum" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="eventReferenceStyleEnum">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="weak"/>
+			<xs:enumeration value="soft"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="event-types">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="esperha:event-type" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="event-type">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element ref="esperha:binary-datainputoutput-binding" minOccurs="0"/>
+					<xs:element ref="esperha:binary-binding" minOccurs="0"/>
+					<xs:element ref="esperha:binary-persistence" minOccurs="0"/>
+					<xs:element ref="esperha:object-persistence" minOccurs="0"/>
+					<xs:element ref="esperha:reference" minOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="name-list" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="binary-datainputoutput-binding">
+		<xs:complexType>
+			<xs:attribute name="class" type="xs:string" use="required"/>
+			<xs:attribute name="singleton" type="xs:boolean" use="optional"/>
+			<!-- Defaults to true -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="binary-binding">
+		<xs:complexType>
+			<xs:attribute name="class" type="xs:string" use="required"/>
+			<xs:attribute name="singleton" type="xs:boolean" use="optional"/>
+			<!-- Defaults to true -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="binary-persistence">
+		<xs:complexType>
+			<xs:attribute name="class" type="xs:string" use="required"/>
+			<xs:attribute name="singleton" type="xs:boolean" use="optional"/>
+			<!-- Defaults to true -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="object-persistence">
+		<xs:complexType>
+			<xs:attribute name="class" type="xs:string" use="required"/>
+			<xs:attribute name="singleton" type="xs:boolean" use="optional"/>
+			<!-- Defaults to true -->
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="retry">
+		<xs:complexType>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:choice>
+					<xs:element ref="esperha:retry-msg" minOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="enabled" type="xs:boolean" use="required"/>
+			<xs:attribute name="max-count" type="xs:int" use="optional"/>
+			<xs:attribute name="wait-time-msec" type="xs:long" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="retry-msg">
+		<xs:complexType>
+			<xs:attribute name="text" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
