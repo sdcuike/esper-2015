@@ -2,6 +2,8 @@ package com.doctor.esper.event;
 
 import java.util.UUID;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * @author doctor
  *
@@ -40,6 +42,11 @@ public class Person {
 
 	public int getAge() {
 		return age;
+	}
+
+	@Override
+	public String toString() {
+		return JSON.toJSONString(this);
 	}
 
 }
