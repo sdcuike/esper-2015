@@ -2,8 +2,13 @@ package com.doctor.esper.common;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.espertech.esper.client.Configuration;
+import com.espertech.esper.client.EPOnDemandPreparedQuery;
+import com.espertech.esper.client.EPOnDemandPreparedQueryParameterized;
+import com.espertech.esper.client.EPOnDemandQueryResult;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPServiceProviderManager;
 import com.espertech.esper.client.EPStatement;
@@ -50,5 +55,28 @@ public enum EsperUtil {
 		Configuration configuration = new Configuration();
 		configuration.configure(EsperUtil.class.getClassLoader().getResource(config));
 		return EPServiceProviderManager.getDefaultProvider(configuration);
+	}
+
+	public static List<EventBean> executeQuery(EPServiceProvider epServiceProvider, String epl) {
+		EPOnDemandQueryResult result = epServiceProvider.getEPRuntime().executeQuery(epl);
+		return Stream.of(result.getArray()).collect(Collectors.toList());
+	}
+
+	public static List<EventBean> prepareQuery(EPServiceProvider epServiceProvider, String epl) {
+		EPOnDemandPreparedQuery preparedQuery = epServiceProvider.getEPRuntime().prepareQuery(epl);
+		EPOnDemandQueryResult result = preparedQuery.execute();
+		return Stream.of(result.getArray()).collect(Collectors.toList());
+	}
+
+	public static List<EventBean> prepareQueryWithParameters(EPServiceProvider epServiceProvider, String epl, Object... parameter) {
+		EPOnDemandPreparedQueryParameterized queryParameterized = epServiceProvider.getEPRuntime().prepareQueryWithParameters(epl);
+		if (parameter != null) {
+			for (int i = 0, length = parameter.length; i < length; i++) {
+				queryParameterized.setObject(i + 1, parameter[i]);
+			}
+		}
+
+		EPOnDemandQueryResult result = epServiceProvider.getEPRuntime().executeQuery(queryParameterized);
+		return Stream.of(result.getArray()).collect(Collectors.toList());
 	}
 }

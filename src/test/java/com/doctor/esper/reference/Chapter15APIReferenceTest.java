@@ -1,8 +1,8 @@
 package com.doctor.esper.reference;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,11 +13,9 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.doctor.esper.common.EsperUtil;
 import com.doctor.esper.event.Withdrawal;
-import com.espertech.esper.client.EPOnDemandPreparedQuery;
-import com.espertech.esper.client.EPOnDemandPreparedQueryParameterized;
-import com.espertech.esper.client.EPOnDemandQueryResult;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPStatement;
+import com.espertech.esper.client.EventBean;
 
 /**
  * Chapter 15. API Reference
@@ -128,31 +126,27 @@ public class Chapter15APIReferenceTest {
 		// 15.5.1. On-Demand Query Single Execution
 		System.out.println("15.5.1. On-Demand Query Single Execution");
 		String query = "select * from WithdrawalWindow ";
-		EPOnDemandQueryResult queryResult = epServiceProvider.getEPRuntime().executeQuery(query);
-		System.out.println(queryResult.getArray().length);
-		Stream.of(queryResult.getArray()).forEach(System.out::println);
+		List<EventBean> list = EsperUtil.executeQuery(epServiceProvider, query);
+		System.out.println(list.size());
+		System.out.println(list);
 
 		// 15.5.2. On-Demand Query Prepared Unparameterized Execution
 		System.out.println("15.5.2. On-Demand Query Prepared Unparameterized Execution");
 
-		EPOnDemandPreparedQuery preparedQuery = epServiceProvider.getEPRuntime().prepareQuery(query);
-		EPOnDemandQueryResult result = preparedQuery.execute();
-		System.out.println(result.getArray().length);
-		Stream.of(result.getArray()).forEach(System.out::println);
+		list = EsperUtil.prepareQuery(epServiceProvider, query);
+		System.out.println(list.size());
+		System.out.println(list);
 
 		// 15.5.3. On-Demand Query Prepared Parameterized Execution
 		System.out.println("15.5.3. On-Demand Query Prepared Parameterized Execution");
 		query = "select * from WithdrawalWindow  where amount > ?";
-		EPOnDemandPreparedQueryParameterized queryParameterized = epServiceProvider.getEPRuntime().prepareQueryWithParameters(query);
-		queryParameterized.setObject(1, 200);
-		result = epServiceProvider.getEPRuntime().executeQuery(queryParameterized);
-		System.out.println(result.getArray().length);
-		Stream.of(result.getArray()).forEach(System.out::println);
+		list = EsperUtil.prepareQueryWithParameters(epServiceProvider, query, new Object[] { 100 });
+		System.out.println(list.size());
+		System.out.println(list);
 
-		queryParameterized.setObject(1, 300);
-		result = epServiceProvider.getEPRuntime().executeQuery(queryParameterized);
-		System.out.println(result.getArray().length);
-		Stream.of(result.getArray()).forEach(System.out::println);
+		list = EsperUtil.prepareQueryWithParameters(epServiceProvider, query, new Object[] { 300 });
+		System.out.println(list.size());
+		System.out.println(list);
 	}
 
 	/**
