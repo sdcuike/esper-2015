@@ -89,6 +89,26 @@ public class Chapter4CPartitionsContextandContextTest {
 		// {old:{"age":2000,"firstName":"doctor","id":"85486e45-b45b-4442-8ad1-484b7fe8e40d","name":"doctor who","sex":"man"},contextName:personBySexContext,contextId:0}
 		// {new:{"age":3100,"firstName":"doctor","id":"828fff0c-8576-4f66-96c4-8e9e9fd1b14e","name":"doctor who 3","sex":"man"},contextName:personBySexContext,contextId:1}
 		// {new:{"age":5100,"firstName":"doctor","id":"1fc60c94-6677-4439-a262-d1a024f1c5b6","name":"doctor who 5","sex":"man"},contextName:personBySexContext,contextId:2}
+
+		epServiceProvider.initialize();
+
+		epl = "context personBySexContext select age, count(*) from Person.win:length(1) ";
+		epServiceProvider.getEPAdministrator().createEPL(context);
+		epServiceProvider.getEPAdministrator().createEPL(epl).setSubscriber(new PersonSubscriber2());
+		TimeUnit.SECONDS.sleep(2);
+		person = new Person("doctor who", "doctor", "man", 2000);
+		epServiceProvider.getEPRuntime().sendEvent(person);
+
+		TimeUnit.SECONDS.sleep(3);
+		person = new Person("doctor who 2", "doctor", "man", 2000);
+		epServiceProvider.getEPRuntime().sendEvent(person);
+
+		TimeUnit.SECONDS.sleep(2);
+		person = new Person("doctor who 3", "doctor", "man", 3100);
+		epServiceProvider.getEPRuntime().sendEvent(person);
+		TimeUnit.SECONDS.sleep(2);
+		person = new Person("doctor who 5", "doctor", "man", 5100);
+		epServiceProvider.getEPRuntime().sendEvent(person);
 	}
 
 	/**
@@ -114,6 +134,17 @@ public class Chapter4CPartitionsContextandContextTest {
 
 		public void updateRStream(Person person, String contextName, long contextId) {
 			log.info("{old:{},contextName:{},contextId:{}}", person, contextName, contextId);
+
+		}
+	}
+
+	public static class PersonSubscriber2 {
+		public void update(int age, long count) {
+			log.info("{new:,age:{},count:{}}", age, count);
+		}
+
+		public void updateRStream(int age, long count) {
+			log.info("{old:,age:{},count:{}}", age, count);
 
 		}
 	}
