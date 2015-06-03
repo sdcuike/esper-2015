@@ -1,6 +1,7 @@
 package com.doctor.esper.reference;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
@@ -8,6 +9,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSON;
 import com.doctor.esper.common.EsperUtil;
 import com.doctor.esper.event.Withdrawal;
 import com.espertech.esper.client.EPServiceProvider;
@@ -55,6 +57,40 @@ public class Chapter15APIReferenceTest {
 		withdrawal = new Withdrawal("doctor who", BigDecimal.valueOf(123.50D));
 		epServiceProvider.getEPRuntime().sendEvent(withdrawal);
 
+		// If your select clause contains one or more wildcards (*), then the equivalent parameter type is the underlying event type of the stream selected from.
+		epServiceProvider.initialize();
+		stringBuilder = new StringBuilder();
+		stringBuilder.append("select * ,count(*) ")
+				.append("from Withdrawal");
+
+		epl = stringBuilder.toString();
+		epStatement = epServiceProvider.getEPAdministrator().createEPL(epl);
+		epStatement.setSubscriber(new WithdrawalSubscriber(), "update2");
+
+		withdrawal = new Withdrawal("doctor", BigDecimal.valueOf(123.50D));
+		epServiceProvider.getEPRuntime().sendEvent(withdrawal);
+
+		withdrawal = new Withdrawal("doctor who", BigDecimal.valueOf(123.50D));
+		epServiceProvider.getEPRuntime().sendEvent(withdrawal);
+
+		//
+		// 15.3.3.1.2. Row Delivery as Map and Object Array
+		epServiceProvider.initialize();
+		stringBuilder = new StringBuilder();
+		stringBuilder.append("select * ,count(*) ")
+				.append("from Withdrawal");
+
+		epl = stringBuilder.toString();
+		epStatement = epServiceProvider.getEPAdministrator().createEPL(epl);
+		epStatement.setSubscriber(new WithdrawalSubscriber(), "updateUseMap");
+
+		withdrawal = new Withdrawal("doctor", BigDecimal.valueOf(123.50D));
+		epServiceProvider.getEPRuntime().sendEvent(withdrawal);
+
+		withdrawal = new Withdrawal("doctor who", BigDecimal.valueOf(123.50D));
+		epServiceProvider.getEPRuntime().sendEvent(withdrawal);
+
+		//
 	}
 
 	/**
@@ -70,6 +106,14 @@ public class Chapter15APIReferenceTest {
 	public static class WithdrawalSubscriber {
 		public void update(Withdrawal withdrawal) {
 			log.info(withdrawal.toString());
+		}
+
+		public void update2(Withdrawal withdrawal, long count) {
+			log.info("{withdrawal:'{}',count:'{}'}", withdrawal, count);
+		}
+
+		public void updateUseMap(Map<String, Object> map) {
+			log.info(JSON.toJSONString(map));
 		}
 	}
 }
