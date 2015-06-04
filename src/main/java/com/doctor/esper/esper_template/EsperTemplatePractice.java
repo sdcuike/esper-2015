@@ -59,6 +59,10 @@ public class EsperTemplatePractice {
 		});
 
 		System.out.println(list);
+
+		esperStatement.stop();
+		esperTemplate.cleanup();
+		applicationContext.close();
 	}
 
 }
