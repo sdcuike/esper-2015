@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:esper="http://www.opencredo.com/schema/esper"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.opencredo.com/schema/esper
+						http://www.opencredo.com/schema/esper/opencredo-esper-3.0.xsd">
+
+	<esper:template id="esperTemplate" configuration="classpath:/esper2015Config/esper-2015.esper.cfg.xml">
+		<esper:statements>
+			<esper:ref bean="personStatement"/>
+		</esper:statements>
+	</esper:template>
+	
+	<esper:statement 
+			    id="personStatement"
+				epl="select * from Person.win:length(2)">
+				<esper:listeners>
+					<bean class="com.doctor.esper.common.listener.PersonListener" />
+				</esper:listeners>
+			</esper:statement>
+</beans>
