@@ -13,6 +13,9 @@ http://www.espertech.com/schema/esper/esper-configuration-2.0.xsd">
 			<stream-selection>
 				<stream-selector value='IRSTREAM'/>
 			</stream-selection>
+			
+			<execution fairlock="true"/>
+			
 		</defaults>
 	</engine-settings>
 	
