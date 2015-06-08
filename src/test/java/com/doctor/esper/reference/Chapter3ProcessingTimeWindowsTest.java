@@ -4,14 +4,19 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.opencredo.esper.EsperStatement;
+import org.opencredo.esper.EsperTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 
 import com.alibaba.fastjson.JSON;
 import com.doctor.esper.common.CommonUpdateListener;
 import com.doctor.esper.common.EsperUtil;
+import com.doctor.esper.event.Person;
 import com.doctor.esper.event.Withdrawal;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPStatement;
@@ -29,10 +34,22 @@ public class Chapter3ProcessingTimeWindowsTest {
 	private static final String config = "esper2015Config/esper-2015.esper.cfg.xml";
 
 	private EPServiceProvider epServiceProvider;
+	private EsperTemplate esperTemplate;
 
 	@Before
 	public void init() {
 		epServiceProvider = EsperUtil.esperConfig(config);
+
+		esperTemplate = new EsperTemplate();
+		esperTemplate.setName("EsperTemplate");
+		esperTemplate.setConfiguration(new ClassPathResource(config));
+		esperTemplate.initialize();
+	}
+
+	@After
+	public void destroy() {
+		epServiceProvider.destroy();
+		esperTemplate.cleanup();
 	}
 
 	/**
@@ -152,5 +169,75 @@ public class Chapter3ProcessingTimeWindowsTest {
 
 		list = EsperUtil.get(epStatement);
 		log.info("{list:'{}'}", JSON.toJSONString(list));
+	}
+
+	/**
+	 * 3.4. Filters and Where-clauses
+	 * 时间/长度窗口及Filters影响了事件能不能进入这个数据结构。
+	 * 而且间接影响了监听器（数据没进入，就不会触发new事件）。
+	 * where 条件与监听器有关系，符合where条件的才会触发监听器。
+	 * 而且还影响select 结果。
+	 * 
+	 * 即：Filters and Where-clauses都影响监听器和select结果。
+	 * 不同的是能否进入数据窗口。
+	 */
+	@Test
+	public void test_Filters_and_Where_clauses() {
+
+		// Filters
+		EsperStatement statement = new EsperStatement("select * from Person(age > 10 ).win:length(2)");
+		statement.setSubscriber(new PersonSubscriber());
+		esperTemplate.addStatement(statement);
+		Person person = new Person("doctor who", "doctor", "man", 2000);
+
+		esperTemplate.sendEvent(person);
+		person = new Person("doctor who", "doctor", "man", 10);
+		esperTemplate.sendEvent(person);
+		person = new Person("doctor who", "doctor", "man", 20);
+		esperTemplate.sendEvent(person);
+		person = new Person("doctor who", "doctor", "man", 120);
+		esperTemplate.sendEvent(person);
+
+		List<Person> list = statement.concurrentSafeQuery(eventBean -> (Person) eventBean.getUnderlying());
+		System.out.println(list);
+
+		statement.stop();
+
+	}
+
+	/**
+	 * where 条件与监听器有关系，符合where条件的才会触发监听器。
+	 * 而且还影响select 结果。
+	 */
+	@Test
+	public void test_Where_clauses() {
+		EsperStatement esperStatement = new EsperStatement("select * from Person.win:length(2) where age > 20");
+		esperStatement.setSubscriber(new PersonSubscriber());
+		esperTemplate.addStatement(esperStatement);
+		Person person = new Person("doctor who", "doctor", "man", 2000);
+
+		esperTemplate.sendEvent(person);
+		person = new Person("doctor who", "doctor", "man", 10);
+		esperTemplate.sendEvent(person);
+		person = new Person("doctor who", "doctor", "man", 20);
+		esperTemplate.sendEvent(person);
+		person = new Person("doctor who", "doctor", "man", 120);
+		esperTemplate.sendEvent(person);
+
+		List<Person> list2 = esperStatement.concurrentSafeQuery(eventBean -> (Person) eventBean.getUnderlying());
+		System.out.println(list2);
+		esperStatement.stop();
+		esperTemplate.cleanup();
+	}
+
+	public static class PersonSubscriber {
+		public void update(Person person) {
+			log.info("{new:{}}", person);
+		}
+
+		public void updateRStream(Person person) {
+			log.info("{old:{}", person);
+
+		}
 	}
 }
