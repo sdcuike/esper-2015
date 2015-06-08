@@ -227,7 +227,38 @@ public class Chapter3ProcessingTimeWindowsTest {
 		List<Person> list2 = esperStatement.concurrentSafeQuery(eventBean -> (Person) eventBean.getUnderlying());
 		System.out.println(list2);
 		esperStatement.stop();
-		esperTemplate.cleanup();
+
+	}
+
+	/**
+	 * insert into event stream
+	 */
+	@Test
+	public void test_多个流组合() {
+		EsperStatement esperStatement = new EsperStatement("insert into PersonFiltered select * from Person.win:length(12) where age > 20");
+		esperStatement.setSubscriber(new PersonSubscriber());
+		EsperStatement esperStatement2 = new EsperStatement("select * from PersonFiltered.win:length(12)");
+		esperStatement2.setSubscriber(new PersonSubscriber());
+		esperTemplate.addStatement(esperStatement);
+		esperTemplate.addStatement(esperStatement2);
+
+		Person person = new Person("doctor who", "doctor", "man", 2000);
+
+		esperTemplate.sendEvent(person);
+		person = new Person("doctor who", "doctor", "man", 10);
+		esperTemplate.sendEvent(person);
+		person = new Person("doctor who", "doctor", "man", 20);
+		esperTemplate.sendEvent(person);
+		person = new Person("doctor who", "doctor", "man", 120);
+		esperTemplate.sendEvent(person);
+
+		List<Person> list = esperStatement.concurrentSafeQuery(eventBean -> (Person) eventBean.getUnderlying());
+		System.out.println(list);
+
+		List<Person> list2 = esperStatement2.concurrentSafeQuery(eventBean -> (Person) eventBean.getUnderlying());
+		System.out.println(list2);
+		esperStatement.stop();
+		esperStatement2.stop();
 	}
 
 	public static class PersonSubscriber {
