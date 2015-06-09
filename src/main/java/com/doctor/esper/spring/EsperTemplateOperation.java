@@ -36,14 +36,7 @@ public interface EsperTemplateOperation {
 	 */
 	public void cleanup();
 
-	/**
-	 * Sets the name used to identify this template and its resources within
-	 * Esper.
-	 * 
-	 * @param name
-	 *            The name associated with this template
-	 */
-	public void setName(String name);
+	public void setProviderURI(String providerURI);
 
 	/**
 	 * Add a collection of {@link EsperStatement} to the template.
