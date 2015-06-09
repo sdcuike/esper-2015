@@ -35,7 +35,9 @@
 	      c:epl="
 	            insert into PersonWindow
 	             select *
-	             from Person.win:length(2)" />
+	             from Person.win:length(2)" 
+	      p:subscriber-ref="personSubscriber"
+	      p:subscriberMethodName="update"/>
 	             
 	<bean id= "PersonWindow2"  class="com.doctor.esper.spring.EsperStatement" 
 	      c:epl="create window PersonWindow.win:length(2)
@@ -44,4 +46,6 @@
 	<bean id="personQuery" class="com.doctor.esper.spring.EsperQueryStatement" 
 		  p:epl="select * from PersonWindow "
 		  p:esperTemplateBean-ref="esperTemplateBean2"/>
+		  
+    <bean id="personSubscriber" class="com.doctor.esper.spring.PersonSubscriber" />
 </beans>
