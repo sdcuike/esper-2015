@@ -43,7 +43,7 @@
 	<bean id= "PersonWindow2"  
 	      class="com.doctor.esper.spring.EsperStatement" 
 	      c:epl="create window PersonWindow.win:length(2)
-	      		 select * from Person" />
+	      		 as Person" />
 	             
 	<bean id="personQuery" 
 	      class="com.doctor.esper.spring.EsperQueryStatement" 
