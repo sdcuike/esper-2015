@@ -9,9 +9,9 @@ import java.util.List;
  */
 public interface OnDemandFireAndForgetQuery {
 
-	public <T> List<T> executeQuery();
+	public <T> List<T> executeQuery(RowMapper<T> rm);
 
-	public <T> List<T> prepareQuery();
+	public <T> List<T> prepareQuery(RowMapper<T> rm);
 
-	public <T> List<T> prepareQueryWithParameters(Object... parameter);
+	public <T> List<T> prepareQueryWithParameters(RowMapper<T> rm, Object... parameter);
 }

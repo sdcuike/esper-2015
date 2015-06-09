@@ -19,19 +19,19 @@ public class EsperQueryStatement implements OnDemandFireAndForgetQuery {
 	}
 
 	@Override
-	public <T> List<T> executeQuery() {
+	public <T> List<T> executeQuery(RowMapper<T> rm) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <T> List<T> prepareQuery() {
+	public <T> List<T> prepareQuery(RowMapper<T> rm) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public <T> List<T> prepareQueryWithParameters(Object... parameter) {
+	public <T> List<T> prepareQueryWithParameters(RowMapper<T> rm, Object... parameter) {
 		// TODO Auto-generated method stub
 		return null;
 	}
