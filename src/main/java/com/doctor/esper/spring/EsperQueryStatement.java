@@ -22,6 +22,10 @@ public class EsperQueryStatement implements OnDemandFireAndForgetQuery {
 
 	private String epl;
 
+	public EsperQueryStatement() {
+
+	}
+
 	public EsperQueryStatement(EsperTemplateBean esperTemplateBean, String epl) {
 		this.esperTemplateBean = esperTemplateBean;
 		this.epl = epl;
