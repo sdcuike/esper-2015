@@ -73,5 +73,7 @@ public class EsperTemplateTest {
 		assertNotNull(personQuery);
 		List<Person> list = personQuery.executeQuery(eventBean -> (Person) eventBean.getUnderlying());
 		System.out.println(list);
+		assertThat(persons.size(), equalTo(list.size()));
+		assertThat(persons, equalTo(list));
 	}
 }
