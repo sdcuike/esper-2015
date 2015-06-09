@@ -28,18 +28,18 @@ public class EsperTemplate implements EsperTemplateOperation {
 
 	private EPServiceProvider epServiceProvider;
 	private EPRuntime epRuntime;
-	private String name;
+	private String providerURI;
 	private Set<EsperStatement> statements = new LinkedHashSet<>();
 	private Resource configuration;
 	private UnmatchedListener unmatchedListener;
 	private volatile boolean initialised = false;
 
-	public void setName(String name) {
-		this.name = name;
+	public String getProviderURI() {
+		return providerURI;
 	}
 
-	public String getName() {
-		return this.name;
+	public void setProviderURI(String providerURI) {
+		this.providerURI = providerURI;
 	}
 
 	public void setStatements(Set<EsperStatement> statements) {
@@ -125,18 +125,18 @@ public class EsperTemplate implements EsperTemplateOperation {
 	 */
 	private void configureEPServiceProvider() throws EPException, IOException {
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("Configuring the Esper Service Provider with name: " + name);
+			LOG.debug("Configuring the Esper Service Provider with name: " + providerURI);
 		}
 		if (this.configuration != null && this.configuration.exists()) {
 			Configuration esperConfiguration = new Configuration();
 			esperConfiguration = esperConfiguration.configure(this.configuration.getFile());
-			epServiceProvider = EPServiceProviderManager.getProvider(name, esperConfiguration);
+			epServiceProvider = EPServiceProviderManager.getProvider(providerURI, esperConfiguration);
 			LOG.info("Esper configured with a user-provided configuration", esperConfiguration);
 		} else {
-			epServiceProvider = EPServiceProviderManager.getProvider(name);
+			epServiceProvider = EPServiceProviderManager.getProvider(providerURI);
 		}
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("Completed configuring the Esper Service Provider with name: " + name);
+			LOG.debug("Completed configuring the Esper Service Provider with name: " + providerURI);
 		}
 	}
 }
