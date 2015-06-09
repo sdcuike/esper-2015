@@ -42,7 +42,7 @@
 	             
 	<bean id= "PersonWindow2"  
 	      class="com.doctor.esper.spring.EsperStatement" 
-	      c:epl="create window PersonWindow.win:length(2)
+	      c:epl="create window PersonWindow.win:length(6)
 	      		 as Person" />
 	             
 	<bean id="personQuery" 
