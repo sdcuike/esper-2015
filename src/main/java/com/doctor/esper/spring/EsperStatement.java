@@ -29,6 +29,7 @@ public class EsperStatement implements EsperStatementOperation {
 	private EPStatement epStatement;
 	private Set<UpdateListener> listeners = new LinkedHashSet<UpdateListener>();
 	private Object subscriber;
+	private String subscriberMethodName = null;
 
 	public EsperStatement(String epl) {
 		this.epl = epl;
@@ -96,6 +97,10 @@ public class EsperStatement implements EsperStatementOperation {
 		this.subscriber = subscriber;
 	}
 
+	public void setSubscriberMethodName(String subscriberMethodName) {
+		this.subscriberMethodName = subscriberMethodName;
+	}
+
 /**
 	 * Adds an {@link UpdateListener) to the statement to support
 	 * the 'push' mode of retrieving results.
@@ -142,8 +147,10 @@ public class EsperStatement implements EsperStatementOperation {
 	 */
 	void setEPStatement(EPStatement epStatement) {
 		this.epStatement = epStatement;
-		if (this.subscriber != null) {
+		if (this.subscriber != null && this.subscriberMethodName == null) {
 			epStatement.setSubscriber(this.subscriber);
+		} else if (this.subscriber != null && this.subscriberMethodName != null) {
+			epStatement.setSubscriber(this.subscriber, subscriberMethodName);
 		} else {
 			for (UpdateListener listener : listeners) {
 				epStatement.addListener(listener);
