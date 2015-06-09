@@ -15,23 +15,24 @@
 		                   http://www.springframework.org/schema/util 
 		                   http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id= "esperTemplateBean" class="com.doctor.esper.spring.EsperTemplateBean"
-	 p:providerURI="spring-esperTemplateBean"
-	 p:configuration="classpath:/esper2015Config/esper-2015.esper.cfg.xml"
-	 />
+	<bean id= "esperTemplateBean"
+	      class="com.doctor.esper.spring.EsperTemplateBean"
+	      p:providerURI="spring-esperTemplateBean"
+	      p:configuration="classpath:/esper2015Config/esper-2015.esper.cfg.xml" />
 	 
-	<bean id= "esperTemplateBean2" class="com.doctor.esper.spring.EsperTemplateBean"
-	 p:providerURI="spring-esperTemplateBean2"
-	 p:configuration="classpath:/esper2015Config/esper-2015.esper.cfg.xml"
-	 p:statements-ref="esperStatements"
-	 />
+	<bean id= "esperTemplateBean2" 
+	      class="com.doctor.esper.spring.EsperTemplateBean"
+	      p:providerURI="spring-esperTemplateBean2"
+	      p:configuration="classpath:/esper2015Config/esper-2015.esper.cfg.xml"
+	      p:statements-ref="esperStatements"/>
 		 
 	<util:set id="esperStatements" set-class="java.util.LinkedHashSet">
 		<ref bean="PersonWindow2"/><!-- 注意epl语句顺序，故底层list是顺序的结构 -->
 		<ref bean="personStatement"/>
 	</util:set>
 	
-	<bean id="personStatement" class="com.doctor.esper.spring.EsperStatement" 
+	<bean id="personStatement" 
+	      class="com.doctor.esper.spring.EsperStatement" 
 	      c:epl="
 	            insert into PersonWindow
 	             select *
@@ -39,11 +40,13 @@
 	      p:subscriber-ref="personSubscriber"
 	      p:subscriberMethodName="update"/>
 	             
-	<bean id= "PersonWindow2"  class="com.doctor.esper.spring.EsperStatement" 
+	<bean id= "PersonWindow2"  
+	      class="com.doctor.esper.spring.EsperStatement" 
 	      c:epl="create window PersonWindow.win:length(2)
 	      		 select * from Person" />
 	             
-	<bean id="personQuery" class="com.doctor.esper.spring.EsperQueryStatement" 
+	<bean id="personQuery" 
+	      class="com.doctor.esper.spring.EsperQueryStatement" 
 		  p:epl="select * from PersonWindow "
 		  p:esperTemplateBean-ref="esperTemplateBean2"/>
 		  
