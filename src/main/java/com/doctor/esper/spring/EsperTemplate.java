@@ -29,7 +29,7 @@ public class EsperTemplate implements EsperTemplateOperation {
 	private EPServiceProvider epServiceProvider;
 	private EPRuntime epRuntime;
 	private String providerURI;
-	private Set<EsperStatement> statements = new LinkedHashSet<>();
+	private Set<EsperStatement> statements = new LinkedHashSet<>();// epl创建顺序也很重要，尤其是窗口命名
 	private Resource configuration;
 	private UnmatchedListener unmatchedListener;
 	private volatile boolean initialised = false;
