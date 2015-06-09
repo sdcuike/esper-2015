@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<esper-configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.espertech.com/schema/esper" xsi:schemaLocation="
+http://www.espertech.com/schema/esper
+http://www.espertech.com/schema/esper/esper-configuration-2.0.xsd">
+
+	<!-- <event-type name="StockTick" class="com.espertech.esper.example.stockticker.event.StockTick" /> -->
+	<!-- <event-type name="PriceLimit" class="com.espertech.esper.example.stockticker.event.PriceLimit" /> -->
+	<event-type-auto-name package-name="com.doctor.esper.event" />
+	<engine-settings>
+		<defaults>
+			<stream-selection>
+				<stream-selector value='IRSTREAM' />
+			</stream-selection>
+
+			<execution fairlock="true" />
+
+		</defaults>
+	</engine-settings>
+
+	<!-- Connections obtained via DataSource Factory -->
+	<database-reference name="dbGreenplum">
+		<datasourcefactory-connection class-name="com.alibaba.druid.pool.DruidDataSourceFactory">
+			<env-property name="username" value="tigeralyze" />
+			<env-property name="password" value="zwc123" />
+			<env-property name="driverClassName" value="org.postgresql.Driver" />
+			<env-property name="url" value="jdbc:postgresql://192.168.90.73:5432/tigerdw" />
+			<env-property name="initialSize" value="2" />
+			<env-property name="validationQuery" value="select 1 " />
+		</datasourcefactory-connection>
+		<connection-lifecycle value="pooled" />
+		<lru-cache size="1000" />
+	</database-reference>
+
+</esper-configuration>
