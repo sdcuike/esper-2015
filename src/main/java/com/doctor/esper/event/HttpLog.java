@@ -3,11 +3,13 @@ package com.doctor.esper.event;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.alibaba.fastjson.JSON;
+
 public class HttpLog implements Serializable {
 
 	private static final long serialVersionUID = -4462410669092068376L;
 
-	private Long id;
+	private int id;
 
 	private String machineId;
 
@@ -21,7 +23,11 @@ public class HttpLog implements Serializable {
 
 	private LocalDateTime time;
 
-	public HttpLog(Long id, String machineId, String requestPath, String referer, String userAgent, LocalDateTime time) {
+	public HttpLog() {
+
+	}
+
+	public HttpLog(int id, String machineId, String requestPath, String referer, String userAgent, LocalDateTime time) {
 		this.id = id;
 		this.machineId = machineId;
 		this.requestPath = requestPath;
@@ -30,11 +36,11 @@ public class HttpLog implements Serializable {
 		this.time = time;
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -78,4 +84,8 @@ public class HttpLog implements Serializable {
 		this.time = time;
 	}
 
+	@Override
+	public String toString() {
+		return JSON.toJSONString(this);
+	}
 }
