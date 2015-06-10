@@ -21,8 +21,13 @@ public class HttpLog implements Serializable {
 
 	private LocalDateTime time;
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public HttpLog(Long id, String machineId, String requestPath, String referer, String userAgent, LocalDateTime time) {
+		this.id = id;
+		this.machineId = machineId;
+		this.requestPath = requestPath;
+		this.referer = referer;
+		this.userAgent = userAgent;
+		this.time = time;
 	}
 
 	public Long getId() {
