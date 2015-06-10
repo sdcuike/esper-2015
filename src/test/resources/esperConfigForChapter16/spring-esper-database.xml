@@ -28,7 +28,10 @@
 	
 	<bean id="nginxlogStatement" 
 	      class="com.doctor.esper.spring.EsperStatement" 
-	      c:epl="select * from HttpLog as httplog join  sql:dbGreenplum ['select * from nginxlog_row_20150609  where id = ${httplog.id}']" />
+	      c:epl="
+	      select httplog.* 
+	      from HttpLog as httplog ,
+	      sql:dbGreenplum ['select * from nginxlog_row_20150609  where id = ${httplog.id}'] as nginxlog " />
 	             
 	             
 </beans>
