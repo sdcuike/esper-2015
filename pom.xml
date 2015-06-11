@@ -21,6 +21,7 @@
 
 		<commons-lang3.version>3.4</commons-lang3.version>
 		<commons-io.version>2.4</commons-io.version>
+		<commons-primitives.version>1.0</commons-primitives.version>
 
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<spring-asm.version>3.1.4.RELEASE</spring-asm.version>
@@ -104,7 +105,11 @@
 			<artifactId>commons-io</artifactId>
 			<version>${commons-io.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>commons-primitives</groupId>
+			<artifactId>commons-primitives</artifactId>
+			<version>${commons-primitives.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
