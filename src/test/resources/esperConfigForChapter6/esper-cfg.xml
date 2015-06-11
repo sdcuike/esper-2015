@@ -6,6 +6,7 @@ http://www.espertech.com/schema/esper/esper-configuration-2.0.xsd">
 	<!-- <event-type name="StockTick" class="com.espertech.esper.example.stockticker.event.StockTick" /> -->
 	<!-- <event-type name="PriceLimit" class="com.espertech.esper.example.stockticker.event.PriceLimit" /> -->
 	<event-type-auto-name package-name="com.doctor.esper.event" />
+	<variable name="var_threshold" type="int" initialization-value="6" constant="true" />
 	<engine-settings>
 		<defaults>
 			<stream-selection>
@@ -15,6 +16,7 @@ http://www.espertech.com/schema/esper/esper-configuration-2.0.xsd">
 			<execution fairlock="true" />
 
 		</defaults>
+		
 	</engine-settings>
 	
 s</esper-configuration>

@@ -89,6 +89,52 @@ public class Chapter6EPLReferenceNamedWindowsAndTables {
 
 	}
 
+	/**
+	 * Chapter 3. Processing Model
+	 * 3.7. Aggregation and Grouping
+	 * 订阅者实现监听
+	 * 
+	 * @see http://www.espertech.com/esper/release-5.2.0/esper-reference/html_single/index.html#processingmodel_aggregation
+	 *      http://www.espertech.com/esper/release-5.2.0/esper-reference/html_single/index.html#config-variables
+	 *      http://www.espertech.com/esper/release-5.2.0/esper-reference/html_single/index.html#variable_using
+	 *      http://www.espertech.com/esper/release-5.2.0/esper-reference/html_single/index.html#config-engine-variables
+	 * 
+	 * @param eventBean
+	 * @return
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void test_() throws InterruptedException {
+		HttpLog httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		TimeUnit.SECONDS.sleep(10);
+
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+	}
+
 	private static HttpLog httpLogMapRow(EventBean eventBean) {
 		return (HttpLog) eventBean.getUnderlying();
 	}

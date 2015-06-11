@@ -25,6 +25,7 @@
 	<util:set id="esperStatements" set-class="java.util.LinkedHashSet">
 		<ref bean="httpLogWinTime5Sec"/>
 		<ref bean="httpLogStatement"/>
+		<ref bean="thresholdHttpLogStatement"/>
 	</util:set>
 	
 	
@@ -45,6 +46,15 @@
 		  select * 
 		  from HttpLogWindowTime5Sec " />
 	      
-  
+  	<bean id="thresholdHttpLogStatement" class="com.doctor.esper.spring.EsperStatement"
+  		  p:subscriber-ref="httpLogSubscriber"
+  		  p:subscriberMethodName="update"
+		  c:epl="
+	      select log.*,count(*)
+	      from HttpLog.win:time(10 sec) as log
+	      group by id
+	      having count(*)  >= var_threshold  " />
+	      
+	 <bean id= "httpLogSubscriber" class="com.doctor.esper.subscriber.HttpLogSubscriber" />
 	             
 </beans>
