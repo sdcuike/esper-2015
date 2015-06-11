@@ -25,6 +25,8 @@
 	<util:set id="esperStatements" set-class="java.util.LinkedHashSet">
 		<ref bean="personStatement"/>
 		<ref bean="personStatementForFunction"/>
+		<ref bean="personStatementForFunction2"/>
+		<ref bean="personStatementForFunction3"/>
 	</util:set>
 	
 	<bean id="personStatement" class="com.doctor.esper.spring.EsperStatement"
@@ -36,6 +38,20 @@
 		  c:epl="
 	      select  id,name,firstName,sex,increment(age) as age
 	      from Person.win:length(10) as p " />
+	      
+	<bean id="personStatementForFunction2" class="com.doctor.esper.spring.EsperStatement"
+		  c:epl="
+	      select  id,name ,
+	      case when MyUtilityClass.wordCount('博士',firstName) > 0 then 'have 博士' else '' end as firstName
+           ,sex,age as age
+	      from Person.win:length(10) as p " />
+	      
+	<bean id="personStatementForFunction3" class="com.doctor.esper.spring.EsperStatement"
+		  c:epl="
+	      select  id,name ,firstName ,sex,age as age
+	      from Person.win:length(10) as p 
+	      where  MyUtilityClass.wordCount('博士',firstName) > 0
+	      " />
 	             
 	             
 </beans>

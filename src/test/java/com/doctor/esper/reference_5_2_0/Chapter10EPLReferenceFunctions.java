@@ -20,6 +20,7 @@ import com.espertech.esper.client.EventBean;
  * Chapter 10. EPL Reference: Functions
  * 
  * @see http://www.espertech.com/esper/release-5.2.0/esper-reference/html_single/index.html#functionreference
+ *      http://www.espertech.com/esper/release-5.2.0/esper-reference/html_single/index.html#epl-function-user-defined
  * 
  * @author doctor
  *
@@ -38,6 +39,12 @@ public class Chapter10EPLReferenceFunctions {
 
 	@Resource(name = "personStatementForFunction")
 	private EsperStatement personStatementForFunction;
+
+	@Resource(name = "personStatementForFunction2")
+	private EsperStatement personStatementForFunction2;
+
+	@Resource(name = "personStatementForFunction3")
+	private EsperStatement personStatementForFunction3;
 
 	/**
 	 * 10.1. Single-row Function Reference
@@ -65,7 +72,7 @@ public class Chapter10EPLReferenceFunctions {
 		esperTemplateBean.sendEvent(person);
 		person = new Person("b", "simth", "woman", 19);
 		esperTemplateBean.sendEvent(person);
-		person = new Person("c", "simth dal", "woman", 29);
+		person = new Person("c", "simth 博士", "woman", 29);
 		esperTemplateBean.sendEvent(person);
 		List<Person> list = personStatement.concurrentSafeQuery(Chapter10EPLReferenceFunctions::mapRow);
 		System.out.println(list);// 用java函数使得每个人的年龄增加1
@@ -73,6 +80,12 @@ public class Chapter10EPLReferenceFunctions {
 		// 自定义函数
 		List<Person> list2 = personStatementForFunction.concurrentSafeQuery(Chapter10EPLReferenceFunctions::mapRow);
 		System.out.println(list2);// 输出数据与上面一样
+
+		List<Person> list3 = personStatementForFunction2.concurrentSafeQuery(Chapter10EPLReferenceFunctions::mapRow);
+		System.out.println(list3);
+
+		List<Person> list4 = personStatementForFunction3.concurrentSafeQuery(Chapter10EPLReferenceFunctions::mapRow);
+		System.out.println(list4);
 	}
 
 	public static Person mapRow(EventBean eventBean) {

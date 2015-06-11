@@ -6,6 +6,7 @@ http://www.espertech.com/schema/esper/esper-configuration-2.0.xsd">
 	<!-- <event-type name="StockTick" class="com.espertech.esper.example.stockticker.event.StockTick" /> -->
 	<!-- <event-type name="PriceLimit" class="com.espertech.esper.example.stockticker.event.PriceLimit" /> -->
 	<event-type-auto-name package-name="com.doctor.esper.event" />
+	<auto-import import-name="com.doctor.esper.common.util.*"/>
 	<engine-settings>
 		<defaults>
 			<stream-selection>
