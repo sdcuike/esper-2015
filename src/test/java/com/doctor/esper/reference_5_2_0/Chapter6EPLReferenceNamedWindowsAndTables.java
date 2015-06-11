@@ -1,9 +1,13 @@
 package com.doctor.esper.reference_5_2_0;
 
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 import javax.annotation.Resource;
 
@@ -15,6 +19,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.doctor.esper.event.HttpLog;
 import com.doctor.esper.spring.EsperQueryStatement;
 import com.doctor.esper.spring.EsperTemplateBean;
+import com.espertech.esper.client.EPOnDemandPreparedQueryParameterized;
+import com.espertech.esper.client.EPOnDemandQueryResult;
 import com.espertech.esper.client.EventBean;
 
 /**
@@ -49,6 +55,8 @@ public class Chapter6EPLReferenceNamedWindowsAndTables {
 
 	/**
 	 * 6.2.2. Inserting Into Named Windows
+	 * 时间和长度视图都是FIFO缓存形式。
+	 * jdbc方式查询
 	 * 
 	 * @throws InterruptedException
 	 */
@@ -86,6 +94,46 @@ public class Chapter6EPLReferenceNamedWindowsAndTables {
 			System.out.println(list);
 			TimeUnit.SECONDS.sleep(2);
 		}
+
+	}
+
+	/**
+	 * jdbc方式查询
+	 * 
+	 * @throws InterruptedException
+	 * 
+	 */
+	@Test
+	public void test_jdbc_like_query() throws InterruptedException {
+		HttpLog httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(11, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+
+		String sql = "select * from HttpLogWindowTime5Sec where id = ?";
+		EPOnDemandPreparedQueryParameterized queryWithParameters = esperTemplateBean.getEsperNativeRuntime().prepareQueryWithParameters(sql);
+		queryWithParameters.setObject(1, 1);
+		EPOnDemandQueryResult result = esperTemplateBean.getEsperNativeRuntime().executeQuery(queryWithParameters);
+		EventBean[] beans = result.getArray();
+
+		assertThat(beans.length, equalTo(5));
+		System.out.println("jdbc查询数目:" + beans.length);
+		Stream.of(beans).map(eventBean -> (HttpLog) eventBean.getUnderlying()).forEach(System.out::println);
+
+		TimeUnit.SECONDS.sleep(10);
+		result = esperTemplateBean.getEsperNativeRuntime().executeQuery(queryWithParameters);
+		beans = result.getArray();
+
+		assertThat(beans.length, equalTo(0));
 
 	}
 
