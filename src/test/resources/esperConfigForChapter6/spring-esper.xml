@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:util="http://www.springframework.org/schema/util" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:lang="http://www.springframework.org/schema/lang"
+	   xmlns:c="http://www.springframework.org/schema/c" 
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	  					   http://www.springframework.org/schema/beans/spring-beans.xsd
+		                   http://www.springframework.org/schema/lang 
+		                   http://www.springframework.org/schema/lang/spring-lang.xsd
+		                   http://www.springframework.org/schema/context 
+		                   http://www.springframework.org/schema/context/spring-context.xsd
+		                   http://www.springframework.org/schema/util 
+		                   http://www.springframework.org/schema/util/spring-util.xsd">
+
+	 
+	<bean id= "esperTemplateBean" 
+	      class="com.doctor.esper.spring.EsperTemplateBean"
+	      p:providerURI="spring-esperTemplateBean"
+	      p:configuration="classpath:/esperConfigForChapter6/esper-cfg.xml"
+	      p:statements-ref="esperStatements"/>
+		 
+	<util:set id="esperStatements" set-class="java.util.LinkedHashSet">
+		<ref bean="httpLogWinTime5Sec"/>
+		<ref bean="httpLogStatement"/>
+	</util:set>
+	
+	
+	<bean id="httpLogWinTime5Sec" class="com.doctor.esper.spring.EsperStatement"
+		  c:epl="
+	      create window HttpLogWindowTime5Sec.win:time(5 sec) 
+	      as HttpLog   " />
+	      
+	<bean id="httpLogStatement" class="com.doctor.esper.spring.EsperStatement"
+		  c:epl="
+		  insert into HttpLogWindowTime5Sec
+	      select  *
+	      from HttpLog " />
+	      
+	<bean id="httpLogWinTime10SecQuery" class="com.doctor.esper.spring.EsperQueryStatement"
+		  c:esperTemplateBean-ref="esperTemplateBean"
+		  c:epl="
+		  select * 
+		  from HttpLogWindowTime5Sec " />
+	      
+  
+	             
+</beans>
