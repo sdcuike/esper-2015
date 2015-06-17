@@ -3,6 +3,7 @@ package com.doctor.esper.spring;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,8 +112,15 @@ public class EsperTemplate implements EsperTemplateOperation {
 	 */
 	private void setupEPStatements() {
 		for (EsperStatement statement : statements) {
-			EPStatement epStatement = epServiceProvider.getEPAdministrator().createEPL(statement.getEPL());
-			statement.setEPStatement(epStatement);
+			String epl = statement.getEPL();
+			if (epl.contains(";")) {
+				// 为了让定义window、table这些结构，可以写在一起。
+				LOG.info("createEPL for define esper basic structure {}", epl);
+				Stream.of(epl.split(";")).forEachOrdered(e -> epServiceProvider.getEPAdministrator().createEPL(e));
+			} else {
+				EPStatement epStatement = epServiceProvider.getEPAdministrator().createEPL(epl);
+				statement.setEPStatement(epStatement);
+			}
 		}
 	}
 
