@@ -24,7 +24,10 @@
 		 
 	<util:set id="esperStatements" set-class="java.util.LinkedHashSet">
 		<ref bean="httpLogWinTime5Sec"/>
+		<ref bean="httpLogWinLength100"/>
+		<ref bean="httpLogWinLength100Index"/>
 		<ref bean="httpLogStatement"/>
+		<ref bean="httpLogStatement2"/>
 		<ref bean="thresholdHttpLogStatement"/>
 	</util:set>
 	
@@ -34,9 +37,24 @@
 	      create window HttpLogWindowTime5Sec.win:time(5 sec) 
 	      as HttpLog   " />
 	      
+	<bean id="httpLogWinLength100" class="com.doctor.esper.spring.EsperStatement"
+		  c:epl="
+	      create window HttpLogWinLength100.win:length(100) 
+	      as HttpLog   " />
+	      
+	<bean id="httpLogWinLength100Index" class="com.doctor.esper.spring.EsperStatement"
+		  c:epl="
+	     create index httpLogWinLength100ForIndex on HttpLogWinLength100(machineId hash,requestPath hash,referer hash, id btree)  " />
+	      
 	<bean id="httpLogStatement" class="com.doctor.esper.spring.EsperStatement"
 		  c:epl="
-		  insert into HttpLogWindowTime5Sec
+		  insert into HttpLogWindowTime5Sec 
+	      select  *
+	      from HttpLog " />
+	      
+	<bean id="httpLogStatement2" class="com.doctor.esper.spring.EsperStatement"
+		  c:epl="
+		  insert into HttpLogWinLength100
 	      select  *
 	      from HttpLog " />
 	      
@@ -54,6 +72,13 @@
 	      from HttpLog.win:time(10 sec) as log
 	      group by id
 	      having count(*)  >= var_threshold  " />
+	      
+	<bean id="httpLogWinLength100Query" class="com.doctor.esper.spring.EsperQueryStatement"
+		  c:esperTemplateBean-ref="esperTemplateBean"
+		  c:epl="
+		  select * 
+		  from HttpLogWinLength100 
+		  where requestPath = ? and id between ? and ? " />
 	      
 	 <bean id= "httpLogSubscriber" class="com.doctor.esper.subscriber.HttpLogSubscriber" />
 	             

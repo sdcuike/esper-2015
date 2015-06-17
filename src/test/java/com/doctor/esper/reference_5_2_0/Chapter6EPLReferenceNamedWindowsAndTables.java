@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2014- now() The  ${project_name}  Authors
+ *
+ * https://github.com/sdcuike
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.doctor.esper.reference_5_2_0;
 
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -52,6 +70,9 @@ public class Chapter6EPLReferenceNamedWindowsAndTables {
 
 	@Resource(name = "httpLogWinTime10SecQuery")
 	private EsperQueryStatement httpLogWinTime10SecQuery;
+
+	@Resource(name = "httpLogWinLength100Query")
+	private EsperQueryStatement httpLogWinLength100Query;
 
 	/**
 	 * 6.2.2. Inserting Into Named Windows
@@ -181,6 +202,37 @@ public class Chapter6EPLReferenceNamedWindowsAndTables {
 		esperTemplateBean.sendEvent(httpLog);
 		httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
 		esperTemplateBean.sendEvent(httpLog);
+	}
+
+	/**
+	 * 6.9. Explicitly Indexing Named Windows and Tables
+	 * 
+	 * 为窗口或表创建索引
+	 * 
+	 * @see http://www.espertech.com/esper/release-5.2.0/esper-reference/html_single/index.html#named_explicit_index
+	 * 
+	 * @param eventBean
+	 * @return
+	 */
+
+	@Test
+	public void test_Explicitly_Indexing_Named_Window() {
+		HttpLog httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(2, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(3, UUID.randomUUID().toString(), "www.baidu.com/tieba_son", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(4, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(6, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(8, UUID.randomUUID().toString(), "www.baidu.com/tieba_son", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+
+		List<HttpLog> list = httpLogWinLength100Query.prepareQueryWithParameters(Chapter6EPLReferenceNamedWindowsAndTables::httpLogMapRow, "www.baidu.com/tieba_son", 2, 10);
+
+		System.out.println(list);
 	}
 
 	private static HttpLog httpLogMapRow(EventBean eventBean) {
