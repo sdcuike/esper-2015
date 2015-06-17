@@ -115,7 +115,7 @@ public class EsperTemplate implements EsperTemplateOperation {
 			String epl = statement.getEPL();
 			if (epl.contains(";")) {
 				// 为了让定义window、table这些结构，可以写在一起。
-				LOG.info("createEPL for define esper basic structure {}", epl);
+				LOG.info("createEPL for define esper basic structure : {}", epl);
 				Stream.of(epl.split(";")).forEachOrdered(e -> epServiceProvider.getEPAdministrator().createEPL(e));
 			} else {
 				EPStatement epStatement = epServiceProvider.getEPAdministrator().createEPL(epl);
