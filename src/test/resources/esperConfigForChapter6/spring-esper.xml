@@ -23,16 +23,23 @@
 	      p:statements-ref="esperStatements"/>
 		 
 	<util:set id="esperStatements" set-class="java.util.LinkedHashSet">
-		<ref bean="httpLogWinTime5Sec"/>
+		<ref bean="defineBasicStructure"/>
+		<!-- <ref bean="httpLogWinTime5Sec"/>
 		<ref bean="httpLogWinLength100"/>
-		<ref bean="httpLogWinLength100Index"/>
+		<ref bean="httpLogWinLength100Index"/> -->
 		<ref bean="httpLogStatement"/>
 		<ref bean="httpLogStatement2"/>
 		<ref bean="thresholdHttpLogStatement"/>
 	</util:set>
 	
 	
-	<bean id="httpLogWinTime5Sec" class="com.doctor.esper.spring.EsperStatement"
+	<bean id="defineBasicStructure" class="com.doctor.esper.spring.EsperStatement"
+		  c:epl=";;
+	      create window HttpLogWindowTime5Sec.win:time(5 sec) as HttpLog;
+	      create window HttpLogWinLength100.win:length(100)  as HttpLog;
+	      create index httpLogWinLength100ForIndex on HttpLogWinLength100(machineId hash,requestPath hash,referer hash, id btree) " />
+	         
+	<!-- <bean id="httpLogWinTime5Sec" class="com.doctor.esper.spring.EsperStatement"
 		  c:epl="
 	      create window HttpLogWindowTime5Sec.win:time(5 sec) 
 	      as HttpLog   " />
@@ -45,7 +52,8 @@
 	<bean id="httpLogWinLength100Index" class="com.doctor.esper.spring.EsperStatement"
 		  c:epl="
 	     create index httpLogWinLength100ForIndex on HttpLogWinLength100(machineId hash,requestPath hash,referer hash, id btree)  " />
-	      
+	       -->
+	       
 	<bean id="httpLogStatement" class="com.doctor.esper.spring.EsperStatement"
 		  c:epl="
 		  insert into HttpLogWindowTime5Sec 
