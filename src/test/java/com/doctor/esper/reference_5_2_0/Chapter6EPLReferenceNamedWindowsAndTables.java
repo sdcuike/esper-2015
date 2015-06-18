@@ -211,6 +211,25 @@ public class Chapter6EPLReferenceNamedWindowsAndTables {
 	 * 
 	 * @see http://www.espertech.com/esper/release-5.2.0/esper-reference/html_single/index.html#named_explicit_index
 	 * 
+	 * @see com.espertech.esper.epl.fafquery.FireAndForgetQueryExec
+	 * 
+	 * 
+	 * 
+	 *      EPRuntimeImpl.executeQuery(EPOnDemandPreparedQueryParameterized) line: 1541
+	 *      EPRuntimeImpl.executeQueryInternal(String, EPStatementObjectModel, EPOnDemandPreparedQueryParameterized, ContextPartitionSelector[]) line: 1553
+	 * 
+	 *      EPPreparedExecuteMethodQuery.execute(ContextPartitionSelector[]) line: 198
+	 * 
+	 *      EPPreparedExecuteMethodQuery.getStreamFilterSnapshot(int, ContextPartitionSelector) line: 258
+	 *      FireAndForgetProcessorNamedWindow.getProcessorInstance(AgentInstanceContext) line: 45
+	 *      FireAndForgetInstanceNamedWindow.<init>(NamedWindowProcessorInstance) line: 29
+	 *      EPPreparedExecuteMethodQuery.getStreamSnapshotInstance(int, List<ExprNode>, FireAndForgetInstance) line: 294
+	 *      NamedWindowTailViewInstance.snapshot(FilterSpecCompiled, Annotation[]) line: 209
+	 *      NamedWindowTailViewInstance.snapshotNoLock(FilterSpecCompiled, Annotation[]) line: 270
+	 *      FireAndForgetQueryExec.snapshot(FilterSpecCompiled, Annotation[], VirtualDWView, EventTableIndexRepository, boolean, Log, String, AgentInstanceContext) line: 53
+	 *      (index索引处理部分)
+	 *      NamedWindowTailViewInstance.snapshotNoLock(FilterSpecCompiled, Annotation[]) line: 279
+	 *      （通过索引result，为null，就返回所有数据，然后在过滤）
 	 * @param eventBean
 	 * @return
 	 */
