@@ -16,11 +16,13 @@
 		                   http://www.springframework.org/schema/util/spring-util.xsd">
 
 	 
+	 <!-- 	 相同providerURI，同一个引擎 -->
 	<bean id= "esperTemplateBean" 
 	      class="com.doctor.esper.spring.EsperTemplateBean"
-	      p:providerURI="spring-esperTemplateBean"
+          p:providerURI="spring-esperTemplateBean" 
 	      p:configuration="classpath:/esperConfigForChapter6/esper-cfg.xml"
 	      p:statements-ref="esperStatements"/>
+		 
 		 
 	<util:set id="esperStatements" set-class="java.util.LinkedHashSet">
 		<ref bean="defineBasicStructure"/>
