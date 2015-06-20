@@ -123,8 +123,10 @@ public class Chapter3ProcessingModelFiltersAndWhereClauses {
 		orderEvent = new OrderEvent("4", 5.50D);
 		epServiceProvider.getEPRuntime().sendEvent(orderEvent);
 		log.info("{list:{}}", EsperUtil.get(epStatement));
-		// 06-01 15:32:24.301 main INFO c.d.e.r.Chapter3ProcessingModel - {newEvents:BeanEventBean eventType=BeanEventType name=OrderEvent
-		// clazz=com.doctor.esper.tutorial.OrderEvent bean={"itemName":"4","price":185.5}}
+
+		// {newEvents:BeanEventBean eventType=BeanEventType name=OrderEvent clazz=com.doctor.esper.tutorial.OrderEvent bean={"itemName":"1","price":75.5}}
+		// {newEvents:BeanEventBean eventType=BeanEventType name=OrderEvent clazz=com.doctor.esper.tutorial.OrderEvent bean={"itemName":"3","price":85.5}}
+		// {list:[BeanEventBean eventType=BeanEventType name=OrderEvent clazz=com.doctor.esper.tutorial.OrderEvent bean={"itemName":"1","price":75.5}, BeanEventBean eventType=BeanEventType name=OrderEvent clazz=com.doctor.esper.tutorial.OrderEvent bean={"itemName":"3","price":85.5}]}
 
 		log.info("{msg:'3.4. Where-clauses'}");
 		epServiceProvider.getEPAdministrator().destroyAllStatements();
