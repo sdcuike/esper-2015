@@ -3,6 +3,7 @@ package com.doctor.esper.spring;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -29,7 +30,7 @@ public class EsperTemplate implements EsperTemplateOperation {
 
 	private EPServiceProvider epServiceProvider;
 	private EPRuntime epRuntime;
-	private String providerURI;
+	private String providerURI = UUID.randomUUID().toString();// 不提供，随机。一个JVM内同一个providerURI，不能创建多个引擎。
 	private Set<EsperStatement> statements = new LinkedHashSet<>();// epl创建顺序也很重要，尤其是窗口命名
 	private Resource configuration;
 	private UnmatchedListener unmatchedListener;
