@@ -173,7 +173,7 @@ public class Chapter3ProcessingTimeWindowsTest {
 
 	/**
 	 * 3.4. Filters and Where-clauses
-	 * 时间/长度窗口及Filters影响了事件能不能进入这个数据结构。
+	 * Filters影响了事件能不能进入这个数据结构。
 	 * 而且间接影响了监听器（数据没进入，就不会触发new事件）。
 	 * where 条件与监听器有关系，符合where条件的才会触发监听器。
 	 * 而且还影响select 结果。
