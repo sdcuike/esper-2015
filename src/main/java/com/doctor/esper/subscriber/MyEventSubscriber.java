@@ -30,7 +30,7 @@ import com.doctor.esper.event.MyEvent;
 public class MyEventSubscriber {
 	private static final Logger log = LoggerFactory.getLogger(MyEventSubscriber.class);
 
-	public void update(MyEvent myEvent) {
-		log.info("{}:{}", this.getClass().getName(), myEvent);
+	public void update(MyEvent myEvent, long count) {
+		log.info("{}:{},count:{}", this.getClass().getName(), myEvent, count);
 	}
 }
