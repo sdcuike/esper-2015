@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:util="http://www.springframework.org/schema/util" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:lang="http://www.springframework.org/schema/lang"
+	   xmlns:c="http://www.springframework.org/schema/c" 
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	  					   http://www.springframework.org/schema/beans/spring-beans.xsd
+		                   http://www.springframework.org/schema/lang 
+		                   http://www.springframework.org/schema/lang/spring-lang.xsd
+		                   http://www.springframework.org/schema/context 
+		                   http://www.springframework.org/schema/context/spring-context.xsd
+		                   http://www.springframework.org/schema/util 
+		                   http://www.springframework.org/schema/util/spring-util.xsd">
+
+	 
+	  
+	<bean id= "esperTemplateBean" 
+	      class="com.doctor.esper.spring.EsperTemplateBean"
+          p:providerURI="spring-esperTemplateBean" 
+	      p:configuration="classpath:/esperConfigForChapter21/esper-cfg.xml"
+	      p:statements-ref="esperStatements"/>
+		 
+		 
+	<util:set id="esperStatements" set-class="java.util.LinkedHashSet">
+		<ref bean="defineBasicStructure"/>
+		<ref bean="myEventStatement"/>
+	</util:set>
+	
+	
+	<bean id="defineBasicStructure" class="com.doctor.esper.spring.EsperStatement"
+		  c:epl="
+		  create context MyContext coalesce by consistent_hash_crc32(id)
+	      from MyEvent granularity 64 preallocate " />
+	         
+	       
+	<bean id="myEventStatement" class="com.doctor.esper.spring.EsperStatement"
+		  c:epl=" context MyContext select *, count(*) from MyEvent group by id "
+		  p:subscriber-ref="myEventSubscriber"
+		  p:subscriberMethodName="update" />
+	      
+	<bean id= "myEventSubscriber" class="com.doctor.esper.subscriber.MyEventSubscriber" />
+	             
+</beans>

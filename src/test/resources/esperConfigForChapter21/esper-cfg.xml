@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<esper-configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.espertech.com/schema/esper" xsi:schemaLocation="
+http://www.espertech.com/schema/esper
+http://www.espertech.com/schema/esper/esper-configuration-2.0.xsd">
+
+	<event-type-auto-name package-name="com.doctor.esper.event" />
+	<engine-settings>
+		<defaults>
+			<stream-selection>
+				<stream-selector value='ISTREAM' />
+			</stream-selection>
+
+			<threading>
+                <listener-dispatch preserve-order="false" />
+                <internal-timer enabled="false"  msec-resolution="200"/>
+            </threading>
+
+		</defaults>
+		
+	</engine-settings>
+	
+</esper-configuration>
