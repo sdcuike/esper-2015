@@ -17,6 +17,8 @@
  */
 package com.doctor.esper.event;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * for 21.2.3. Theading
  * 
@@ -35,5 +37,10 @@ public final class MyEvent {
 
 	public int getId() {
 		return id;
+	}
+
+	@Override
+	public String toString() {
+		return JSON.toJSONString(this);
 	}
 }
