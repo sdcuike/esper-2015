@@ -33,7 +33,10 @@ import com.doctor.esper.spring.EsperTemplateBean;
 import com.google.common.base.Stopwatch;
 
 /**
+ * Chapter 21. Performance
+ * 
  * @see http://www.espertech.com/esper/release-5.2.0/esper-reference/html_single/index.html#performance
+ * 
  *      1.带有时间或长度数据窗口（time-based or length-based data windows）的EPL，根据它们的大小或长度也可能消耗大量的内存。对于时间窗口（ time-based data windows），你必须意识到内存的消耗取决于实际事件流的流入率（the actual event stream input throughput）。
  * 
  *      2.事件模式实例（pattern instances）同样消耗内存，特别是带有"every"关键字的模式（pattern）重复出现在子表达式中（ sub-expressions）。which again will depend on the actual event stream input throughput
@@ -45,6 +48,18 @@ import com.google.common.base.Stopwatch;
  *      4.Additionally, when reading input events from a store or network in a performance test, you may find that Esper processes events faster then you are able to feed events into Esper. In such case you may want to consider an in-memory driver for use in performance testing. Also consider
  *      decoupling your read operation from the event processing operation (sendEvent method) by having multiple readers or by pre-fetching your data from the store.
  *      当生成事件的操作处理速度跟不上esper处理事件的速度时候，可以考虑将生产事件的操作与处理事件即sendEvent 方法解藕，多线程生产事件或预生产事件。
+ * 
+ *      5.Select the underlying event rather than individual fields
+ *      By selecting the underlying event in the select-clause we can reduce load on the engine, since the engine does not need to generate a new output event for each input event.
+ *      Better performance select * from RFIDEvent,Less good performance select assetId, zone, xlocation, ylocation from RFIDEvent
+ * 
+ *      6.Prefer stream-level filtering over where-clause filtering.
+ *      Esper stream-level filtering is very well optimized, while filtering via the where-clause post any data windows is not optimized.
+ * 
+ *      The same is true for named windows. If your application is only interested in a subset of named window data and such filters are not correlated to arriving events, place the filters into parenthesis after the named window name.
+ *      Better performance : stream-level filtering select * from MarketData(ticker = 'GOOG'),
+ *      Less good performance : post-data-window filtering select * from MarketData(ticker = 'GOOG')
+ *      这条规则只适用于没有数据窗口的情况下（事件/长度窗口).当使用事件/长度窗口，语义变化了就。
  * 
  * @author doctor
  *
@@ -60,7 +75,13 @@ public class Chapter21Performance {
 	/**
 	 * We recommend using multiple threads to send events into Esper. We provide a test class below. Our test class does not use a blocking queue and thread pool so as to avoid a point of contention.
 	 * 
-	 * 推荐多线程向Esper引擎发送事件。下面的测试，没用阻塞队列和线程池技术避免性能损失。
+	 * 推荐多线程向Esper引擎发送事件。
+	 * 
+	 * 
+	 * We recommend using Java threads as test_testing_performance_with_multiple_threads() , or a blocking queue and thread pool with sendEvent() or alternatively we recommend configuring inbound threading if your application does not already employ threading. Esper provides the configuration
+	 * option to use engine-level queues and threadpools for inbound, outbound and internal executions. See Section 15.7.1, “Advanced Threading” for more information.
+	 * 
+	 * 具体线程配置：http://www.espertech.com/esper/release-5.2.0/esper-reference/html_single/index.html#config-engine-threading
 	 * 
 	 * @throws InterruptedException
 	 */
