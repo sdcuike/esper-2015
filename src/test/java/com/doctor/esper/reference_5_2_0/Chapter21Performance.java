@@ -17,7 +17,13 @@
  */
 package com.doctor.esper.reference_5_2_0;
 
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
+
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -28,8 +34,11 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.doctor.esper.event.HttpLog;
 import com.doctor.esper.event.MyEvent;
+import com.doctor.esper.spring.EsperQueryStatement;
 import com.doctor.esper.spring.EsperTemplateBean;
+import com.espertech.esper.client.EventBean;
 import com.google.common.base.Stopwatch;
 
 /**
@@ -71,6 +80,9 @@ public class Chapter21Performance {
 
 	@Resource(name = "esperTemplateBean")
 	private EsperTemplateBean esperTemplateBean;
+
+	@Resource(name = "httpLogWinLength100Query")
+	private EsperQueryStatement httpLogWinLength100Query;
 
 	/**
 	 * We recommend using multiple threads to send events into Esper. We provide a test class below. Our test class does not use a blocking queue and thread pool so as to avoid a point of contention.
@@ -130,5 +142,40 @@ public class Chapter21Performance {
 			latch.countDown();
 		}
 
+	}
+
+	/**
+	 * 21.2.35. Query Planning Index Hints
+	 * 
+	 * @see http://www.espertech.com/esper/release-5.2.0/esper-reference/html_single/index.html#perf-tips-25b
+	 * 
+	 *      验证查询计划执行索引功能： @Hint('index(httpLogWinLength100ForIndex, bust)')，利用bust。Multiple indexes can be listed separated by comma (,).
+	 * 
+	 */
+	@Test
+	public void test_Query_Planning() {
+		HttpLog httpLog = new HttpLog(1, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(2, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(3, UUID.randomUUID().toString(), "www.baidu.com/tieba_son", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(4, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(6, UUID.randomUUID().toString(), "www.baidu.com/tieba", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+		httpLog = new HttpLog(8, UUID.randomUUID().toString(), "www.baidu.com/tieba_son", "www.baidu.com", "userAgent", LocalDateTime.now());
+		esperTemplateBean.sendEvent(httpLog);
+
+		Stopwatch stopwatch = Stopwatch.createStarted();
+		List<HttpLog> list = httpLogWinLength100Query.prepareQueryWithParameters(Chapter21Performance::httpLogMapRow, "www.baidu.com/tieba_son", 2, 10);
+		System.out.println(stopwatch.elapsed(TimeUnit.MICROSECONDS));
+		stopwatch.stop();
+		assertThat(list.size(), equalTo(2));
+		System.out.println(list);
+	}
+
+	private static HttpLog httpLogMapRow(EventBean eventBean) {
+		return (HttpLog) eventBean.getUnderlying();
 	}
 }

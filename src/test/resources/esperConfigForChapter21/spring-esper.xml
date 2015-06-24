@@ -33,13 +33,31 @@
 	<bean id="defineBasicStructure" class="com.doctor.esper.spring.EsperStatement"
 		  c:epl="
 		  create context MyContext coalesce by consistent_hash_crc32(id)
-	      from MyEvent granularity 64 preallocate " />
+	      from MyEvent granularity 64 preallocate ;
+	      
+	      create window HttpLogWinLength100.win:length(100)  as HttpLog;
+	      create index httpLogWinLength100ForIndexOnMachineId on HttpLogWinLength100(machineId hash);
+	      create index httpLogWinLength100ForIndexOnRequestPath on HttpLogWinLength100(requestPath hash);
+	      create index httpLogWinLength100ForIndexOnReferer on HttpLogWinLength100(referer hash);
+	      create index httpLogWinLength100ForIndexOnId on HttpLogWinLength100(id btree);
+	     
+	      insert into HttpLogWinLength100  select  *  from HttpLog " />
 	         
 	       
 	<bean id="myEventStatement" class="com.doctor.esper.spring.EsperStatement"
 		  c:epl=" context MyContext select *, count(*) from MyEvent group by id "
 		  p:subscriber-ref="myEventSubscriber"
 		  p:subscriberMethodName="update" />
+		  
+   <bean id="httpLogWinLength100Query" class="com.doctor.esper.spring.EsperQueryStatement"
+		  c:esperTemplateBean-ref="esperTemplateBean"
+		  c:epl="
+		  @Hint('index(httpLogWinLength100ForIndexOnMachineId,httpLogWinLength100ForIndexOnRequestPath,httpLogWinLength100ForIndexOnReferer,httpLogWinLength100ForIndexOnId,explicit, bust)')
+		  select * 
+		  from HttpLogWinLength100 
+		  where requestPath = ? and id between ? and ? " />
+	      
+   <bean id= "httpLogSubscriber" class="com.doctor.esper.subscriber.HttpLogSubscriber" />
 	      
 	<bean id= "myEventSubscriber" class="com.doctor.esper.subscriber.MyEventSubscriber" />
 	             
