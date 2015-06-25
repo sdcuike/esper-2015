@@ -2,6 +2,7 @@ package com.doctor.esper.event;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import com.alibaba.fastjson.JSON;
 
@@ -82,6 +83,24 @@ public class HttpLog implements Serializable {
 
 	public void setTime(LocalDateTime time) {
 		this.time = time;
+	}
+
+	@Override
+	public int hashCode() {
+		return Arrays.hashCode(Arrays.asList(this.id).toArray());
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj instanceof HttpLog) {
+			HttpLog log = (HttpLog) obj;
+
+			return log.id == this.id;
+		}
+		return false;
 	}
 
 	@Override
