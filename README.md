@@ -18,3 +18,6 @@ esper学习
 
 
 ### http://esper.13850.n7.nabble.com/Esper-User-list-f3.html
+
+
+### https://www.opencredo.com/2012/03/21/esper-extensions-implementing-custom-aggregation-function/
