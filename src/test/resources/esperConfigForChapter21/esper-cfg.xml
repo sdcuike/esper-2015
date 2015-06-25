@@ -13,6 +13,15 @@ http://www.espertech.com/schema/esper/esper-configuration-2.0.xsd">
 			<threading>
                 <listener-dispatch preserve-order="false" />
                 <internal-timer enabled="false"  msec-resolution="200"/>
+                
+<!--                 <listener-dispatch preserve-order="true" timeout-msec="1000" locking="spin"/> -->
+<!--                 <insert-into-dispatch preserve-order="true" timeout-msec="100" locking="spin"/> -->
+<!--                 <internal-timer enabled="true" msec-resolution="200"/> -->
+                
+<!--                 <threadpool-inbound enabled="true" num-threads="2" /> -->
+<!--      			<threadpool-outbound enabled="true" num-threads="2" capacity="1000"/> -->
+<!--                 <threadpool-timerexec enabled="true" num-threads="2"/> -->
+<!--                 <threadpool-routeexec enabled="true" num-threads="2"/> -->
             </threading>
 
 		</defaults>
