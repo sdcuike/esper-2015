@@ -21,3 +21,4 @@ esper学习
 
 
 ### https://www.opencredo.com/2012/03/21/esper-extensions-implementing-custom-aggregation-function/
+### https://www.opencredo.com/2012/02/08/a-simple-introduction-to-complex-event-processing-stock-ticker-end-to-end-sample/
