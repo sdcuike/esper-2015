@@ -26,7 +26,7 @@ __________________
 
 - [https://github.com/pulsarIO/jetstream-esper/tree/master/jetstream-esper/src/main/java/com/ebay/jetstream/event/processor/esper/aggregates](https://github.com/pulsarIO/jetstream-esper/tree/master/jetstream-esper/src/main/java/com/ebay/jetstream/event/processor/esper/aggregates)
 
-__________________________________________
+__________________
 ### Esper统计方面
 - [http://www.cnblogs.com/fxjwind/p/3289221.html](http://www.cnblogs.com/fxjwind/p/3289221.html)
 - [http://blog.codinglabs.org/tag.html#%E5%9F%BA%E6%95%B0%E4%BC%B0%E8%AE%A1](http://blog.codinglabs.org/tag.html#%E5%9F%BA%E6%95%B0%E4%BC%B0%E8%AE%A1)
