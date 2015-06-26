@@ -24,3 +24,9 @@ esper学习
 ### [https://www.opencredo.com/2012/02/08/a-simple-introduction-to-complex-event-processing-stock-ticker-end-to-end-sample/](https://www.opencredo.com/2012/02/08/a-simple-introduction-to-complex-event-processing-stock-ticker-end-to-end-sample/)
 
 ### [https://github.com/pulsarIO/jetstream-esper/tree/master/jetstream-esper/src/main/java/com/ebay/jetstream/event/processor/esper/aggregates](https://github.com/pulsarIO/jetstream-esper/tree/master/jetstream-esper/src/main/java/com/ebay/jetstream/event/processor/esper/aggregates)
+
+__________________________________________
+### Esper统计方面
+- [http://www.cnblogs.com/fxjwind/p/3289221.html](http://www.cnblogs.com/fxjwind/p/3289221.html)
+- [http://blog.codinglabs.org/tag.html#%E5%9F%BA%E6%95%B0%E4%BC%B0%E8%AE%A1](http://blog.codinglabs.org/tag.html#%E5%9F%BA%E6%95%B0%E4%BC%B0%E8%AE%A1)
+- [http://madlib.net/](http://madlib.net/)
