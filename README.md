@@ -30,3 +30,6 @@ __________________________________________
 - [http://www.cnblogs.com/fxjwind/p/3289221.html](http://www.cnblogs.com/fxjwind/p/3289221.html)
 - [http://blog.codinglabs.org/tag.html#%E5%9F%BA%E6%95%B0%E4%BC%B0%E8%AE%A1](http://blog.codinglabs.org/tag.html#%E5%9F%BA%E6%95%B0%E4%BC%B0%E8%AE%A1)
 - [http://madlib.net/](http://madlib.net/)
+
+- [https://github.com/madlib/madlib](https://github.com/madlib/madlib)
+- [https://github.com/addthis/stream-lib](https://github.com/addthis/stream-lib)
