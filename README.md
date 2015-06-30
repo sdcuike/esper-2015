@@ -34,3 +34,8 @@ __________________
 
 - [https://github.com/madlib/madlib](https://github.com/madlib/madlib)
 - [https://github.com/addthis/stream-lib](https://github.com/addthis/stream-lib)
+
+
+### 其它
+- [https://github.com/Jeff-Lewis/AlgoTrader](https://github.com/Jeff-Lewis/AlgoTrader)算法交易员 (Algo Trader)
+- [http://doc.algotrader.ch/](http://doc.algotrader.ch/)算法交易员 (Algo Trader)
