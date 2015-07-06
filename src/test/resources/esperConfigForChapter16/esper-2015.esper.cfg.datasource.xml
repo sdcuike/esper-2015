@@ -20,10 +20,10 @@ http://www.espertech.com/schema/esper/esper-configuration-2.0.xsd">
 	<!-- Connections obtained via DataSource Factory -->
 	<database-reference name="dbGreenplum">
 		<datasourcefactory-connection class-name="com.alibaba.druid.pool.DruidDataSourceFactory">
-			<env-property name="username" value="tigeralyze" />
-			<env-property name="password" value="zwc123" />
+			<env-property name="username" value="XXX" />
+			<env-property name="password" value="XXX" />
 			<env-property name="driverClassName" value="org.postgresql.Driver" />
-			<env-property name="url" value="jdbc:postgresql://192.168.90.73:5432/tigerdw" />
+			<env-property name="url" value="jdbc:postgresql://XXXX.XXXX.XXXX.XXXX:XXXX/XXX" />
 			<env-property name="initialSize" value="2" />
 			<env-property name="validationQuery" value="select 1 " />
 		</datasourcefactory-connection>
